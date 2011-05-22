@@ -1,6 +1,6 @@
 //
 //  NSString+URL.m
-//  Facebook
+//  Additions
 //
 //  Created by Sumeru Chatterjee on 5/18/11.
 //  Copyright 2011 . All rights reserved.
