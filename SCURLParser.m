@@ -10,6 +10,7 @@
 
 @implementation SCURLParser
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (id) initWithNavigatorParamString:(NSString *)params{
     self = [super init];
     if (self != nil) {

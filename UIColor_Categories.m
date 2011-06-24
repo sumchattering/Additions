@@ -9,14 +9,14 @@
 
 @implementation UIColor(MBCategory)
 
-// takes @"#123456"
+///////////////////////////////////////////////////////////////////////////////////////////////////
 + (UIColor *)colorWithHexString:(NSString *)str {
     const char *cStr = [str cStringUsingEncoding:NSASCIIStringEncoding];
     long x = strtol(cStr+1, NULL, 16);
     return [UIColor colorWithHex:x];
 }
 
-// takes 0x123456
+///////////////////////////////////////////////////////////////////////////////////////////////////
 + (UIColor *)colorWithHex:(UInt32)col {
     unsigned char r, g, b;
     b = col & 0xFF;
