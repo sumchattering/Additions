@@ -1,5 +1,6 @@
 //
-// GTMDefines.h
+//  GTMDefines.h
+//	Additions
 //
 //  Copyright 2008 Google Inc.
 //

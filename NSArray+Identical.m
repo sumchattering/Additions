@@ -1,10 +1,9 @@
 //
 //  NSArray+Identical.m
-//  Facebook
+//  Additions
 //
 //  Created by Sumeru Chatterjee on 5/19/11.
-//  Copyright 2011 . All rights reserved.
-//
+
 
 #import "NSArray+Identical.h"
 

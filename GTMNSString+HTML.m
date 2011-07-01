@@ -1,5 +1,7 @@
 //
 //  GTMNSString+HTML.m
+//  Additions
+//
 //  Dealing with NSStrings that contain HTML
 //
 //  Copyright 2006-2008 Google Inc.
