@@ -1,14 +1,14 @@
 //
-//  NSString+URL.m
+//  NSString+Regex.m
 //  Additions
 //
 //  Created by Sumeru Chatterjee on 5/18/11.
 
 
-#import "NSString+URL.h"
+#import "NSString+Regex.h"
 
 
-@implementation NSString (URL)
+@implementation NSString (Regex)
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 -(NSString*) firstURLinString
 {
@@ -26,18 +26,21 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 -(NSString*) firstStringWithPattern:(NSString*)pattern
 {
-	NSError *error = NULL;
+	NSError* err = nil;
+	NSString* result = nil;
 	NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern
 																		   options:NSRegularExpressionCaseInsensitive
-																			 error:&error];
-	if (error)
-		return nil;
-
-	NSArray* matches = [regex matchesInString:self options:0 range:NSMakeRange(0, [self length])];
-	if ([matches count]>0)
-		return [self substringWithRange:[[matches objectAtIndex:0] range]];
-	else
-		return nil;
+																			 error:&err];
+	NSTextCheckingResult* match;
+	if(match = [regex firstMatchInString:self options:0 range:NSMakeRange(0, [self length])]) {
+		
+		if ([match numberOfRanges]>1)
+			result = [self substringWithRange:[match rangeAtIndex:1]];
+		else
+			result = [self substringWithRange:[match range]];
+	}	
+	
+	return result;
 }
 
 @end
