@@ -12,7 +12,9 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 -(NSString*) firstURLinString
 {
-	NSString* url;
+    //TODO:Fix the regex
+	
+    NSString* url;
 	//NSString* pattern =  @"(http|https)://((\\w)*|([0-9]*)|([-|_])*)+([\\.|/]((\\w)*|([0-9]*)|([-|_])*))+";
 	NSString* schemePattern = @"(http|https)://(([a-zA-Z0-9-.]+\\.[a-zA-Z]{2,3})|([0-2]*\\d*\\d\\.[0-2]*\\d*\\d\\.[0-2]*\\d*\\d\\.[0-2]*\\d*\\d))(:[a-zA-Z0-9]*)?/?([a-zA-Z0-9-._\\?\\,\\'/\\+&%\\$#\\=~])*[^.\\,)(\\s]$";
 	if (url = [self firstStringWithPattern:schemePattern]) {
