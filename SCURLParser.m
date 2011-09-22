@@ -19,7 +19,7 @@
         NSString *tempString;
         NSMutableArray *vars = [NSMutableArray new];
 		while ([scanner scanUpToString:@"&" intoString:&tempString]) {
-            [vars addObject:[tempString copy]];
+            [vars addObject:[[tempString copy] autorelease]];
         }
         self.variables = vars;
         [vars release];

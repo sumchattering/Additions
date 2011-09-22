@@ -23,7 +23,7 @@
 		//ignore the beginning of the string and skip to the vars
         [scanner scanUpToString:@"?" intoString:nil];
         while ([scanner scanUpToString:@"&" intoString:&tempString]) {
-            [vars addObject:[tempString copy]];
+            [vars addObject:[[tempString copy] autorelease]];
         }
         self.variables = vars;
         [vars release];
