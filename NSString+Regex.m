@@ -45,4 +45,24 @@
 	return result;
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
+-(BOOL) matchesPattern:(NSString*)pattern 
+{
+	
+	NSError* err = nil;
+	BOOL result = FALSE;
+	NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern
+																		   options:NSRegularExpressionCaseInsensitive
+																			 error:&err];
+	NSTextCheckingResult* match;
+	NSRange selfRange = NSMakeRange(0, [self length]);
+	
+	if(match = [regex firstMatchInString:self options:0 range:selfRange]) {
+		
+		result = NSEqualRanges([match range],selfRange);
+	}	
+	return result;
+}	
+
+
 @end

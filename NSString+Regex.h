@@ -11,4 +11,5 @@
 @interface  NSString (Regex)
 -(NSString*) firstURLinString;
 -(NSString*) firstStringWithPattern:(NSString*)pattern;
+-(BOOL) matchesPattern:(NSString*)pattern;
 @end
