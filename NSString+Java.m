@@ -3,7 +3,6 @@
 //  Additions
 //
 //  Created by Alberto Gimeno Brieba on 12/09/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
 #import "NSString+Java.h"
