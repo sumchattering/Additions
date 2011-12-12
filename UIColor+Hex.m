@@ -8,7 +8,7 @@
 
 #import "UIColor_Categories.h"
 
-@implementation UIColor(MBCategory)
+@implementation UIColor (Hex)
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 + (UIColor *)colorWithHexString:(NSString *)str {
