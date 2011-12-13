@@ -6,7 +6,7 @@
 //  Copyright 2010 Matthias Bauch. All rights reserved.
 //
 
-#import "UIColor_Categories.h"
+#import "UIColor+Hex.h"
 
 @implementation UIColor (Hex)
 

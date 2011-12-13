@@ -1,6 +1,6 @@
 //
 //  NSString+HTML.h
-//  MWFeedParser
+//  Additions
 //
 //  Copyright (c) 2010 Michael Waterfall
 //  
