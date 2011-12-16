@@ -38,6 +38,8 @@ typedef void(^TransitionBlock)(void);
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (TransitionBlock) transitionBlockForTransitionStyle:(UINavigationCustomTransitionStyle)transitionStyle controller:(UIViewController*)controller forward:(BOOL)forward;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+-(UIViewAnimationOptions) viewAnimationOptionsForTransitionStyle:(UINavigationCustomTransitionStyle)transitionStyle forward:(BOOL)forward;
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (NSString*)transitionTypeFromTransitionStyle:(UINavigationCustomTransitionStyle)transitionStyle;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (NSString*)transitionForwardSubtypeFromTransitionStyle:(UINavigationCustomTransitionStyle)transitionStyle;
@@ -57,7 +59,7 @@ typedef void(^TransitionBlock)(void);
 		[self viewAnimationInitializationBlockForTransitionStyle:transitionStyle controller:viewController forward:YES]();
 		[UIView animateWithDuration:[self animationDurationFromTransitionStyle:transitionStyle]
 							  delay:0
-							options:UIViewAnimationOptionCurveEaseInOut
+							options:[self viewAnimationOptionsForTransitionStyle:transitionStyle forward:YES]
 						 animations:[self viewAnimationAnimationBlockForTransitionStyle:transitionStyle controller:viewController forward:YES]
 						 completion:^(BOOL finished){
 							 [self viewAnimationCompletionBlockForTransitionStyle:transitionStyle controller:viewController forward:YES](finished);
@@ -82,7 +84,7 @@ typedef void(^TransitionBlock)(void);
 		[self viewAnimationInitializationBlockForTransitionStyle:transitionStyle controller:viewController forward:NO]();
 		[UIView animateWithDuration:[self animationDurationFromTransitionStyle:transitionStyle]
 							  delay:0
-							options:UIViewAnimationOptionCurveEaseInOut
+							options:[self viewAnimationOptionsForTransitionStyle:transitionStyle forward:NO]
 						 animations:[self viewAnimationAnimationBlockForTransitionStyle:transitionStyle controller:viewController forward:NO]
 						 completion:[self viewAnimationCompletionBlockForTransitionStyle:transitionStyle controller:viewController forward:NO]];
 		
@@ -132,18 +134,17 @@ typedef void(^TransitionBlock)(void);
 		case UINavigationCustomTransitionStyleZoom:
 			if (forward) {
 				return [[^{
-					[[self view] addSubview:controller.view];
+					[[self.topViewController view] addSubview:controller.view];
 					[controller viewWillAppear:YES];
 					controller.view.transform=CGAffineTransformMakeScale(0.001, 0.001);
 				} copy] autorelease];
 				
 			} else {
 				return [[^{
-					[[self view] addSubview:controller.view];
+					[[self.topViewController view] addSubview:controller.view];
 				} copy] autorelease];
 			}
-			
-			
+        
 		default:
 			return [[^{} copy] autorelease];;
 	}
@@ -193,6 +194,17 @@ typedef void(^TransitionBlock)(void);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+-(UIViewAnimationOptions) viewAnimationOptionsForTransitionStyle:(UINavigationCustomTransitionStyle)transitionStyle forward:(BOOL)forward 
+{
+    switch (transitionStyle) {
+		case UINavigationCustomTransitionStyleZoom:
+			return forward?UIViewAnimationCurveEaseOut:UIViewAnimationCurveEaseIn;
+		default:
+			return UIViewAnimationCurveEaseInOut;
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 // Helper Methods for AnimationMethodCATransitionAnimation
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -207,19 +219,19 @@ typedef void(^TransitionBlock)(void);
 			transition.type = [self transitionTypeFromTransitionStyle:transitionStyle];
 			transition.subtype = [self transitionForwardSubtypeFromTransitionStyle:transitionStyle];
                     
-			[[self.navigationController.view layer] addAnimation:transition forKey:@"transition"];
+			[[self.view layer] addAnimation:transition forKey:@"transition"];
 		} copy] autorelease];
 		
 	} else {
 		return [[^{
 			CATransition *transition = [CATransition animation];
 			transition.duration = [self animationDurationFromTransitionStyle:transitionStyle];
-			transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
+			transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
 			
 			transition.type = [self transitionTypeFromTransitionStyle:transitionStyle];
 			transition.subtype =  [self transitionBackwardSubtypeFromTransitionStyle:transitionStyle];
                     
-			[[self.navigationController.view layer] addAnimation:transition forKey:@"transition"];
+			[[self.view layer] addAnimation:transition forKey:@"transition"];
 		} copy] autorelease];
 	}
 }
