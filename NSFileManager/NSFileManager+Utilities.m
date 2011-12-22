@@ -4,7 +4,7 @@
  BSD License, Use at your own risk
  */
 
-#import "NSFileManager-Utilities.h"
+#import "NSFileManager+Utilities.h"
 
 NSString *NSDocumentsFolder()
 {

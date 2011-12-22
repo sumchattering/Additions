@@ -6,7 +6,7 @@
 
 // Thanks jweinberg, Emanuele Vulcano, rincewind42, Jonah Williams
 
-#import "UIDevice-Orientation.h"
+#import "UIDevice+Orientation.h"
 
 @implementation UIDevice (Orientation)
 

@@ -4,7 +4,7 @@
  BSD License, Use at your own risk
  */
 
-#import "NSString-Utilities.h"
+#import "NSString+Utilities.h"
 
 @implementation  NSString (UtilityExtensions)
 - (NSString *) trimmedString

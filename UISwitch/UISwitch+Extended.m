@@ -1,4 +1,4 @@
-#import "UISwitch-Extended.h"
+#import "UISwitch+Extended.h"
 
 #define TAG_OFFSET	900
 

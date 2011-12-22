@@ -4,8 +4,8 @@
  BSD License, Use at your own risk
  */
 
-#import "ArrayUtilities.h"
-#import "NSObject-Utilities.h"
+#import "NSArray+Utilities.h"
+#import "NSObject+Utilities.h"
 #import <time.h>
 #import <stdarg.h>
 

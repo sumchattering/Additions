@@ -22,8 +22,5 @@ NSString *NSBundleFolder();
 + (NSArray *) pathsForBundleDocumentsMatchingExtension: (NSString *) ext;
 
 + (NSArray *) filesInFolder: (NSString *) path;
-
-+ (UIImage *) imageNamed: (NSString *) aName;
-+ (UIImage *) imageFromURLString: (NSString *) urlstring;
 @end
 
