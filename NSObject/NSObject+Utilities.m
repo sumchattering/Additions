@@ -18,14 +18,14 @@
 {
 	Class cl = [self class];
 	NSMutableArray *results = [NSMutableArray arrayWithObject:cl];
-	
-	do 
+
+	do
 	{
 		cl = [cl superclass];
 		[results addObject:cl];
 	}
 	while (![cl isEqual:[NSObject class]]) ;
-	
+
 	return results;
 }
 
@@ -34,19 +34,19 @@
 - (NSInvocation *) invocationWithSelector: (SEL) selector andArguments:(va_list) arguments
 {
 	if (![self respondsToSelector:selector]) return NULL;
-	
+
 	NSMethodSignature *ms = [self methodSignatureForSelector:selector];
 	if (!ms) return NULL;
-	
+
 	NSInvocation *inv = [NSInvocation invocationWithMethodSignature:ms];
 	if (!inv) return NULL;
-	
+
 	[inv setTarget:self];
 	[inv setSelector:selector];
-	
+
 	int argcount = 2;
 	int totalArgs = [ms numberOfArguments];
-	
+
 	while (argcount < totalArgs)
 	{
 		char *argtype = (char *)[ms getArgumentTypeAtIndex:argcount];
@@ -106,7 +106,7 @@
 		{
 			char *s = va_arg(arguments, char *);
 			[inv setArgument:s atIndex:argcount++];
-		}		
+		}
 		else
 		{
 			NSString *type = [NSString stringWithCString:argtype encoding:NSUTF8StringEncoding];
@@ -134,13 +134,13 @@
 			}
 		}
 	}
-	
-	if (argcount != totalArgs) 
+
+	if (argcount != totalArgs)
 	{
 		printf("Invocation argument count mismatch: %d expected, %d sent\n", [ms numberOfArguments], argcount);
 		return NULL;
 	}
-	
+
 	return inv;
 }
 
@@ -152,7 +152,7 @@
 	va_start(arglist, selector);
 	NSInvocation *inv = [self invocationWithSelector:selector andArguments:arglist];
 	va_end(arglist);
-	return inv;	
+	return inv;
 }
 
 // Peform the selector using va_list arguments
@@ -163,7 +163,7 @@
 	if (!inv) return NO;
 	[inv invoke];
 	if (result) [inv getReturnValue:result];
-	return YES;	
+	return YES;
 }
 
 // Perform a selector with an arbitrary number of arguments
@@ -178,7 +178,7 @@
 	[inv invoke];
 	if (result) [inv getReturnValue:result];
 	va_end(arglist);
-	return YES;		
+	return YES;
 }
 
 // Returning objects by performing selectors
@@ -190,21 +190,23 @@
 	va_start(arglist, selector);
 	[self performSelector:selector withReturnValue:&result andArguments:arglist];
 	va_end(arglist);
-	
+
 	CFShow(result);
 	return result;
 }
-/*
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (id) objectByPerformingSelector:(SEL)selector withObject:(id) object1 withObject: (id) object2
 {
 	return [self objectByPerformingSelectorWithArguments:selector, object1, object2];
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (id) objectByPerformingSelector:(SEL)selector withObject:(id) object1
 {
 	return [self objectByPerformingSelectorWithArguments:selector, object1];
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (id) objectByPerformingSelector:(SEL)selector
 {
 	return [self objectByPerformingSelectorWithArguments:selector];
@@ -214,11 +216,11 @@
 - (id) objectByPerformingSelector:(SEL)selector withObject:(id) object1 withObject: (id) object2
 {
 	if (![self respondsToSelector:selector]) return nil;
-	
+
 	// Retrieve method signature and return type
 	NSMethodSignature *ms = [self methodSignatureForSelector:selector];
 	const char *returnType = [ms methodReturnType];
-	
+
 	// Create invocation using method signature and invoke it
 	NSInvocation *inv = [NSInvocation invocationWithMethodSignature:ms];
 	[inv setTarget:self];
@@ -226,7 +228,7 @@
 	if (object1) [inv setArgument:&object1 atIndex:2];
 	if (object2) [inv setArgument:&object2 atIndex:3];
 	[inv invoke];
-	
+
 	// return object
 	if (strcmp(returnType, @encode(id)) == 0)
 	{
@@ -234,7 +236,7 @@
 		[inv getReturnValue:&riz];
 		return riz;
 	}
-	
+
 	// return double
 	if ((strcmp(returnType, @encode(float)) == 0) ||
 		(strcmp(returnType, @encode(double)) == 0))
@@ -243,7 +245,7 @@
 		[inv getReturnValue:&f];
 		return [NSNumber numberWithDouble:f];
 	}
-	
+
 	// return NSNumber version of byte. Use valueBy version for recovering chars
 	if ((strcmp(returnType, @encode(char)) == 0) ||
 		(strcmp(returnType, @encode(unsigned char)) == 0))
@@ -252,7 +254,7 @@
 		[inv getReturnValue:&c];
 		return [NSNumber numberWithInt:(unsigned int)c];
 	}
-	
+
 	// return c-string
 	if (strcmp(returnType, @encode (char*)) == 0)
 	{
@@ -260,7 +262,7 @@
 		[inv getReturnValue:s];
 		return [NSString stringWithCString:s encoding:NSUTF8StringEncoding];
 	}
-	
+
 	// return integer
 	long l;
 	[inv getReturnValue:&l];
@@ -332,7 +334,7 @@
 	va_start(arglist, delay);
 	NSInvocation *inv = [self invocationWithSelector:selector andArguments:arglist];
 	va_end(arglist);
-	
+
 	if (!inv) return;
 	[inv performSelector:@selector(invoke) afterDelay:delay];
 }
@@ -342,11 +344,11 @@
 - (id) valueByPerformingSelector:(SEL)selector withObject:(id) object1 withObject: (id) object2
 {
 	if (![self respondsToSelector:selector]) return nil;
-	
+
 	// Retrieve method signature and return type
 	NSMethodSignature *ms = [self methodSignatureForSelector:selector];
 	const char *returnType = [ms methodReturnType];
-	
+
 	// Create invocation using method signature and invoke it
 	NSInvocation *inv = [NSInvocation invocationWithMethodSignature:ms];
 	[inv setTarget:self];
@@ -354,8 +356,8 @@
 	if (object1) [inv setArgument:&object1 atIndex:2];
 	if (object2) [inv setArgument:&object2 atIndex:3];
 	[inv invoke];
-	
-	
+
+
 	// Place results into value
 	void *bytes = malloc(16);
 	[inv getReturnValue:bytes];
@@ -500,11 +502,12 @@
 	return (NSClassFromString(className) != nil);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
 + (id) instanceOfClassNamed: (NSString *) className
 {
 	if (NSClassFromString(className) != nil)
 		return [[[NSClassFromString(className) alloc] init] autorelease];
-	else 
+	else
 		return nil;
 }
 
@@ -523,7 +526,7 @@
 - (SEL) chooseSelector: (SEL) aSelector, ...
 {
 	if ([self respondsToSelector:aSelector]) return aSelector;
-	
+
 	va_list selectors;
 	va_start(selectors, aSelector);
 	SEL selector = va_arg(selectors, SEL);
@@ -532,7 +535,7 @@
 		if ([self respondsToSelector:selector]) return selector;
 		selector = va_arg(selectors, SEL);
 	}
-	
+
 	return NULL;
 }
 

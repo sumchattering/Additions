@@ -143,7 +143,7 @@ file:[NSString stringWithUTF8String:__FILE__]  \
 lineNumber:__LINE__                                  \
 description:__VA_ARGS__];                             \
 }                                                                       \
-} while(0)
+} while (0)
 #else // !defined(NS_BLOCK_ASSERTIONS)
 #define _GTMDevAssert(condition, ...) do { } while (0)
 #endif // !defined(NS_BLOCK_ASSERTIONS)

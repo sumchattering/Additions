@@ -39,7 +39,7 @@
 @property (readonly, getter=reverse) NSMutableArray *reversed;
 @end
 
-@interface NSMutableArray (StackAndQueueExtensions) 
+@interface NSMutableArray (StackAndQueueExtensions)
 - (NSMutableArray *)pushObject:(id)object;
 - (NSMutableArray *)pushObjects:(id)object,...;
 - (id) popObject;

@@ -9,6 +9,7 @@
 
 @implementation NSData (helper)
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (NSString*)hexString {
 	NSMutableString *str = [NSMutableString stringWithCapacity:64];
 	int length = [self length];

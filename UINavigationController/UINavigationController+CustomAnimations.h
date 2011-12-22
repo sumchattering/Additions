@@ -23,6 +23,6 @@ typedef enum {
 - (void)pushViewController:(UIViewController *)viewController withCustomTransitionStyle:(UINavigationCustomTransitionStyle)transitionStyle;
 
 /* Pop the top the view controller with a custom transition style*/
-- (UIViewController *)popViewControllerwithCustomTransitionStyle:(UINavigationCustomTransitionStyle)transitionStyle; 
+- (UIViewController *)popViewControllerwithCustomTransitionStyle:(UINavigationCustomTransitionStyle)transitionStyle;
 
 @end

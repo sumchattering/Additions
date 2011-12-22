@@ -51,11 +51,11 @@ typedef void(^TransitionBlock)(void);
 @implementation UINavigationController (CustomAnimations)
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-- (void)pushViewController:(UIViewController *)viewController withCustomTransitionStyle:(UINavigationCustomTransitionStyle)transitionStyle 
+- (void)pushViewController:(UIViewController *)viewController withCustomTransitionStyle:(UINavigationCustomTransitionStyle)transitionStyle
 {
     [viewController.view setFrame:self.topViewController.view.frame];
 	if ([self animationMethodForTransitionStyle:transitionStyle]== AnimationMethodUIViewAnimation ) {
-		
+
 		[self viewAnimationInitializationBlockForTransitionStyle:transitionStyle controller:viewController forward:YES]();
 		[UIView animateWithDuration:[self animationDurationFromTransitionStyle:transitionStyle]
 							  delay:0
@@ -65,7 +65,7 @@ typedef void(^TransitionBlock)(void);
 							 [self viewAnimationCompletionBlockForTransitionStyle:transitionStyle controller:viewController forward:YES](finished);
 							 [self pushViewController:viewController animated:NO];
 						 }];
-		
+
 	} else {
 		[self transitionBlockForTransitionStyle:transitionStyle controller:viewController forward:YES]();
 		[self pushViewController:viewController animated:NO];
@@ -73,13 +73,13 @@ typedef void(^TransitionBlock)(void);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-- (UIViewController *)popViewControllerwithCustomTransitionStyle:(UINavigationCustomTransitionStyle)transitionStyle 
+- (UIViewController *)popViewControllerwithCustomTransitionStyle:(UINavigationCustomTransitionStyle)transitionStyle
 {
     UIViewController* returnViewController = nil;
-    
+
     UIViewController* viewController = [self.topViewController retain];
 	if ([self animationMethodForTransitionStyle:transitionStyle]== AnimationMethodUIViewAnimation ) {
-		
+
 		returnViewController = [self popViewControllerAnimated:NO];
 		[self viewAnimationInitializationBlockForTransitionStyle:transitionStyle controller:viewController forward:NO]();
 		[UIView animateWithDuration:[self animationDurationFromTransitionStyle:transitionStyle]
@@ -87,12 +87,12 @@ typedef void(^TransitionBlock)(void);
 							options:[self viewAnimationOptionsForTransitionStyle:transitionStyle forward:NO]
 						 animations:[self viewAnimationAnimationBlockForTransitionStyle:transitionStyle controller:viewController forward:NO]
 						 completion:[self viewAnimationCompletionBlockForTransitionStyle:transitionStyle controller:viewController forward:NO]];
-		
+
 	} else {
 		[self transitionBlockForTransitionStyle:transitionStyle controller:viewController forward:NO]();
 		returnViewController = [self popViewControllerAnimated:NO];
 	}
-    
+
     [viewController release];
     return returnViewController;
 }
@@ -138,13 +138,13 @@ typedef void(^TransitionBlock)(void);
 					[controller viewWillAppear:YES];
 					controller.view.transform=CGAffineTransformMakeScale(0.001, 0.001);
 				} copy] autorelease];
-				
+
 			} else {
 				return [[^{
 					[[self.topViewController view] addSubview:controller.view];
 				} copy] autorelease];
 			}
-        
+
 		default:
 			return [[^{} copy] autorelease];;
 	}
@@ -160,13 +160,13 @@ typedef void(^TransitionBlock)(void);
 				return [[^{
 					controller.view.transform=CGAffineTransformMakeScale(1, 1);
 				} copy] autorelease];
-				
+
 			} else {
 				return [[^{
 					controller.view.transform=CGAffineTransformMakeScale(0.001, 0.001);
 				} copy] autorelease];
 			}
-			
+
 		default:
 			return [[^{} copy] autorelease];
 	}
@@ -181,7 +181,7 @@ typedef void(^TransitionBlock)(void);
 				return [[^{
 					[controller.view removeFromSuperview];
 				} copy] autorelease];
-				
+
 			} else {
 				return [[^{
 					[controller.view removeFromSuperview];
@@ -194,7 +194,7 @@ typedef void(^TransitionBlock)(void);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
--(UIViewAnimationOptions) viewAnimationOptionsForTransitionStyle:(UINavigationCustomTransitionStyle)transitionStyle forward:(BOOL)forward 
+-(UIViewAnimationOptions) viewAnimationOptionsForTransitionStyle:(UINavigationCustomTransitionStyle)transitionStyle forward:(BOOL)forward
 {
     switch (transitionStyle) {
 		case UINavigationCustomTransitionStyleZoom:
@@ -215,22 +215,22 @@ typedef void(^TransitionBlock)(void);
 			CATransition *transition = [CATransition animation];
 			transition.duration = [self animationDurationFromTransitionStyle:transitionStyle];
 			transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
-			
+
 			transition.type = [self transitionTypeFromTransitionStyle:transitionStyle];
 			transition.subtype = [self transitionForwardSubtypeFromTransitionStyle:transitionStyle];
-                    
+
 			[[self.view layer] addAnimation:transition forKey:@"transition"];
 		} copy] autorelease];
-		
+
 	} else {
 		return [[^{
 			CATransition *transition = [CATransition animation];
 			transition.duration = [self animationDurationFromTransitionStyle:transitionStyle];
 			transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
-			
+
 			transition.type = [self transitionTypeFromTransitionStyle:transitionStyle];
 			transition.subtype =  [self transitionBackwardSubtypeFromTransitionStyle:transitionStyle];
-                    
+
 			[[self.view layer] addAnimation:transition forKey:@"transition"];
 		} copy] autorelease];
 	}
@@ -266,7 +266,7 @@ typedef void(^TransitionBlock)(void);
 		default:
 			return nil;
 	}
-	
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
