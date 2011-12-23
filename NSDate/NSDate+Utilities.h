@@ -1,8 +1,10 @@
-/*
- Erica Sadun, http://ericasadun.com
- iPhone Developer's Cookbook 3.x and beyond
- BSD License, Use at your own risk
- */
+//
+//  NSDate+Utilities.h
+//  Additions
+//
+//  Created by Erica Sadun, http://ericasadun.com
+//  iPhone Developer's Cookbook, 3.x and beyond
+//  BSD License, Use at your own risk
 
 #import <Foundation/Foundation.h>
 

@@ -1,8 +1,10 @@
-/*
- Erica Sadun, http://ericasadun.com
- iPhone Developer's Cookbook, 3.0 Edition
- BSD License, Use at your own risk
- */
+//
+//  NSArray+Utilities.m
+//  Additions
+//
+//  Created by Erica Sadun, http://ericasadun.com
+//  iPhone Developer's Cookbook, 3.0 Edition
+//  BSD License, Use at your own risk
 
 #import "NSArray+Utilities.h"
 #import "NSObject+Utilities.h"

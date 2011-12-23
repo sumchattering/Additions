@@ -1,5 +1,5 @@
 //
-//  UIColor_Categories.h
+//  UIColor+Hex.h
 //  Additions
 //
 //  Created by Matthias Bauch on 24.11.10.

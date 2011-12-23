@@ -194,6 +194,8 @@
 	CFShow(result);
 	return result;
 }
+
+/*
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (id) objectByPerformingSelector:(SEL)selector withObject:(id) object1 withObject: (id) object2
 {

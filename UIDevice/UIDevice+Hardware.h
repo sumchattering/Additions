@@ -1,8 +1,12 @@
-/*
- Erica Sadun, http://ericasadun.com
- iPhone Developer's Cookbook, 5.0 Edition
- BSD License, Use at your own risk
- */
+//
+//  UIDevice+Hardware.h
+//  Additions
+//
+//  Created by Erica Sadun, http://ericasadun.com
+//  iPhone Developer's Cookbook, 5.0 Edition
+//  BSD License, Use at your own risk
+//  Thanks to Emanuele Vulcano, Kevin Ballard/Eridius, Ryandjohnson, Matt Brown, etc.
+
 
 #import <UIKit/UIKit.h>
 

@@ -1,3 +1,12 @@
+//
+//  UIColor+Expanded.m
+//  Additions
+//
+//  Created by Erica Sadun, http://ericasadun.com
+//  iPhone Developer's Cookbook, 3.0 Edition
+//  BSD License, Use at your own risk
+
+
 #import "UIColor+Expanded.h"
 
 /*
@@ -687,166 +696,4 @@ static NSLock *crayolaNameCacheLock;
 	crayolaNameCacheLock = [[NSLock alloc] init];
 }
 
-@end
-
-#pragma mark -
-
-#if SUPPORTS_UNDOCUMENTED_API
-@implementation UIColor (UIColor_Undocumented_Expanded)
-///////////////////////////////////////////////////////////////////////////////////////////////////
-- (NSString *)fetchStyleString {
-	return [self styleString];
-}
-
-// Convert a color into RGB Color space, courtesy of Poltras
-// via http://ofcodeandmen.poltras.com/2009/01/22/convert-a-cgcolorref-to-another-cgcolorspaceref/
-///////////////////////////////////////////////////////////////////////////////////////////////////
-- (UIColor *)rgbColor {
-	// Call to undocumented method "styleString".
-	NSString *style = [self styleString];
-	NSScanner *scanner = [NSScanner scannerWithString:style];
-	CGFloat red, green, blue;
-	if (![scanner scanString:@"rgb(" intoString:NULL]) return nil;
-	if (![scanner scanFloat:&red]) return nil;
-	if (![scanner scanString:@"," intoString:NULL]) return nil;
-	if (![scanner scanFloat:&green]) return nil;
-	if (![scanner scanString:@"," intoString:NULL]) return nil;
-	if (![scanner scanFloat:&blue]) return nil;
-	if (![scanner scanString:@")" intoString:NULL]) return nil;
-	if (![scanner isAtEnd]) return nil;
-
-	return [UIColor colorWithRed:red green:green blue:blue alpha:self.alpha];
-}
-@end
-#endif // SUPPORTS_UNDOCUMENTED_API
-
-@implementation UIColor (UIColor_Expanded_Support)
-/*
- * Database of color names and hex rgb values, derived
- * from the css 3 color spec:
- *	http://www.w3.org/TR/css3-color/
- *
- * We think this is a very compact way of storing
- * this information, and relatively cheap to lookup.
- *
- * Note that we search for color names starting with ','
- * and terminated by '#', so that we don't get false matches.
- * For this reason, the database begins with ','.
- */
-static const char *colorNameDB = ","
-	"aliceblue#f0f8ff,antiquewhite#faebd7,aqua#00ffff,aquamarine#7fffd4,azure#f0ffff,"
-	"beige#f5f5dc,bisque#ffe4c4,black#000000,blanchedalmond#ffebcd,blue#0000ff,"
-	"blueviolet#8a2be2,brown#a52a2a,burlywood#deb887,cadetblue#5f9ea0,chartreuse#7fff00,"
-	"chocolate#d2691e,coral#ff7f50,cornflowerblue#6495ed,cornsilk#fff8dc,crimson#dc143c,"
-	"cyan#00ffff,darkblue#00008b,darkcyan#008b8b,darkgoldenrod#b8860b,darkgray#a9a9a9,"
-	"darkgreen#006400,darkgrey#a9a9a9,darkkhaki#bdb76b,darkmagenta#8b008b,"
-	"darkolivegreen#556b2f,darkorange#ff8c00,darkorchid#9932cc,darkred#8b0000,"
-	"darksalmon#e9967a,darkseagreen#8fbc8f,darkslateblue#483d8b,darkslategray#2f4f4f,"
-	"darkslategrey#2f4f4f,darkturquoise#00ced1,darkviolet#9400d3,deeppink#ff1493,"
-	"deepskyblue#00bfff,dimgray#696969,dimgrey#696969,dodgerblue#1e90ff,"
-	"firebrick#b22222,floralwhite#fffaf0,forestgreen#228b22,fuchsia#ff00ff,"
-	"gainsboro#dcdcdc,ghostwhite#f8f8ff,gold#ffd700,goldenrod#daa520,gray#808080,"
-	"green#008000,greenyellow#adff2f,grey#808080,honeydew#f0fff0,hotpink#ff69b4,"
-	"indianred#cd5c5c,indigo#4b0082,ivory#fffff0,khaki#f0e68c,lavender#e6e6fa,"
-	"lavenderblush#fff0f5,lawngreen#7cfc00,lemonchiffon#fffacd,lightblue#add8e6,"
-	"lightcoral#f08080,lightcyan#e0ffff,lightgoldenrodyellow#fafad2,lightgray#d3d3d3,"
-	"lightgreen#90ee90,lightgrey#d3d3d3,lightpink#ffb6c1,lightsalmon#ffa07a,"
-	"lightseagreen#20b2aa,lightskyblue#87cefa,lightslategray#778899,"
-	"lightslategrey#778899,lightsteelblue#b0c4de,lightyellow#ffffe0,lime#00ff00,"
-	"limegreen#32cd32,linen#faf0e6,magenta#ff00ff,maroon#800000,mediumaquamarine#66cdaa,"
-	"mediumblue#0000cd,mediumorchid#ba55d3,mediumpurple#9370db,mediumseagreen#3cb371,"
-	"mediumslateblue#7b68ee,mediumspringgreen#00fa9a,mediumturquoise#48d1cc,"
-	"mediumvioletred#c71585,midnightblue#191970,mintcream#f5fffa,mistyrose#ffe4e1,"
-	"moccasin#ffe4b5,navajowhite#ffdead,navy#000080,oldlace#fdf5e6,olive#808000,"
-	"olivedrab#6b8e23,orange#ffa500,orangered#ff4500,orchid#da70d6,palegoldenrod#eee8aa,"
-	"palegreen#98fb98,paleturquoise#afeeee,palevioletred#db7093,papayawhip#ffefd5,"
-	"peachpuff#ffdab9,peru#cd853f,pink#ffc0cb,plum#dda0dd,powderblue#b0e0e6,"
-	"purple#800080,red#ff0000,rosybrown#bc8f8f,royalblue#4169e1,saddlebrown#8b4513,"
-	"salmon#fa8072,sandybrown#f4a460,seagreen#2e8b57,seashell#fff5ee,sienna#a0522d,"
-	"silver#c0c0c0,skyblue#87ceeb,slateblue#6a5acd,slategray#708090,slategrey#708090,"
-	"snow#fffafa,springgreen#00ff7f,steelblue#4682b4,tan#d2b48c,teal#008080,"
-	"thistle#d8bfd8,tomato#ff6347,turquoise#40e0d0,violet#ee82ee,wheat#f5deb3,"
-	"white#ffffff,whitesmoke#f5f5f5,yellow#ffff00,yellowgreen#9acd32";
-
-static const char *crayolaNameDB = ","
-	"Almond#EED9C4,Antique Brass#C88A65,Apricot#FDD5B1,Aquamarine#71D9E2,Asparagus#7BA05B,"
-	"Atomic Tangerine#FF9966,Banana Mania#FBE7B2,Beaver#926F5B,Bittersweet#FE6F5E,Black#000000,"
-	"Blizzard Blue#A3E3ED,Blue#0066FF,Blue Bell#9999CC,Blue Green#0095B6,Blue Violet#6456B7,"
-	"Brick Red#C62D42,Brink Pink#FB607F,Brown#AF593E,Burnt Orange#FF7034,Burnt Sienna#E97451,"
-	"Cadet Blue#A9B2C3,Canary#FFFF99,Caribbean Green#00CC99,Carnation Pink#FFA6C9,Cerise#DA3287,"
-	"Cerulean#02A4D3,Chartreuse#FF9966,Chestnut#B94E48,Copper#DA8A67,Cornflower#93CCEA,Cotton Candy#FFB7D5,"
-	"Cranberry#DB5079,Dandelion#FED85D,Denim#1560BD,Desert Sand#EDC9AF,Eggplant#614051,Electric Lime#CCFF00,"
-	"Fern#63B76C,Flesh#FFCBA4,Forest Green#5FA777,Fuchsia#C154C1,Fuzzy Wuzzy Brown#C45655,Gold#E6BE8A,Goldenrod#FCD667,"
-	"Granny Smith Apple#9DE093,Gray#8B8680,Green#01A368,Green Yellow#F1E788,Happy Ever After#6CDA37,Hot Magenta#FF00CC,"
-	"Inch Worm#B0E313,Indian Red#B94E48,Indigo#4F69C6,Jazzberry Jam#A50B5E,Jungle Green#29AB87,Laser Lemon#FFFF66,"
-	"Lavender#FBAED2,Macaroni And Cheese#FFB97B,Magenta#F653A6,Magic Mint#AAF0D1,Mahogany#CA3435,Manatee#8D90A1,"
-	"Mango Tango#E77200,Maroon#C32148,Mauvelous#F091A9,Melon#FEBAAD,Midnight Blue#003366,Mountain Meadow#1AB385,"
-	"Mulberry#C54B8C,Navy Blue#0066CC,Neon Carrot#FF9933,Olive Green#B5B35C,Orange#FF681F,Orchid#E29CD2,Outer Space#2D383A,"
-	"Outrageous Orange#FF6037,Pacific Blue#009DC4,Peach#FFCBA4,Periwinkle#C3CDE6,Pig Pink#FDD7E4,Pine Green#01796F,"
-	"Pink Flamingo#FF66FF,Plum#843179,Prussian Blue#003366,Purple Heart#652DC1,Purple Mountain's Majesty#9678B6,"
-	"Purple Pizzazz#FF00CC,Radical Red#FF355E,Raw Sienna#D27D46,Razzle Dazzle Rose#FF33CC,Razzmatazz#E30B5C,Red#ED0A3F,"
-	"Red Orange#FF3F34,Red Violet#BB3385,Robin's Egg Blue#00CCCC,Royal Purple#6B3FA0,Salmon#FF91A4,Scarlet#FD0E35,"
-	"Screamin' Green#66FF66,Sea Green#93DFB8,Sepia#9E5B40,Shadow#837050,Shamrock#33CC99,Shocking Pink#FF6FFF,Silver#C9C0BB,"
-	"Sky Blue#76D7EA,Spring Green#ECEBBD,Sunglow#FFCC33,Sunset Orange#FE4C40,Tan#FA9D5A,Tickle Me Pink#FC80A5,Timberwolf#D9D6CF,"
-	"Torch Red#FD0E35,Tropical Rain Forest#00755E,Tumbleweed#DEA681,Turquoise Blue#6CDAE7,Ultra Green#66FF66,Ultra Orange#FF6037,"
-	"Ultra Pink#FF6FFF,Ultra Red#FD5B78,Ultra Yellow#FFFF66,Unmellow Yellow#FFFF66,Violet (purple)#8359A3,Violet Red#F7468A,"
-	"Vivid Tangerine#FF9980,Vivid Violet#803790,White#FFFFFF,Wild Blue Yonder#7A89B8,Wild Strawberry#FF3399,Wild Watermelon#FD5B78,"
-	"Wisteria#C9A0DC,Yellow#FBE870,Yellow Green#C5E17A,Yellow Orange#FFAE42";
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-+ (void)populateColorNameCache {
-	NSAssert(colorNameCache == nil, @"+pouplateColorNameCache was called when colorNameCache was not nil");
-	NSMutableDictionary *cache = [NSMutableDictionary dictionary];
-	for (const char* entry = colorNameDB; entry = strchr(entry, ','); ) {
-
-		// Step forward to the start of the name
-		++entry;
-
-		// Find the following hash
-		const char* h = strchr(entry, '#');
-		NSAssert(h, @"Malformed colorNameDB");
-
-		// Get the name
-		NSString* name = [[NSString alloc] initWithBytes:entry length:h - entry encoding:NSUTF8StringEncoding];
-
-		// Get the color, and add to the dictionary
-		int hex, increment;
-		if (sscanf(++h, "%x%n", &hex, &increment) != 1) {[name release]; break;} // thanks Curtis Duhn
-		[cache setObject:[self colorWithRGBHex:hex] forKey:name];
-
-		// Cleanup and move to the next item
-		[name release];
-		entry = h + increment;
-	}
-	colorNameCache = [cache copy];
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-+ (void)populateCrayolaNameCache {
-	NSAssert(crayolaNameCache == nil, @"+pouplateCrayolaNameCache was called when crayolaNameCache was not nil");
-	NSMutableDictionary *cache = [NSMutableDictionary dictionary];
-	for (const char* entry = crayolaNameDB; entry = strchr(entry, ','); ) {
-
-		// Step forward to the start of the name
-		++entry;
-
-		// Find the following hash
-		const char* h = strchr(entry, '#');
-		NSAssert(h, @"Malformed crayolaNameDB");
-
-		// Get the name
-		NSString* name = [[NSString alloc] initWithBytes:entry length:h - entry encoding:NSUTF8StringEncoding];
-
-		// Get the color, and add to the dictionary
-		int hex, increment;
-		if (sscanf(++h, "%x%n", &hex, &increment) != 1) {[name release]; break;} // thanks Curtis Duhn
-		[cache setObject:[self colorWithRGBHex:hex] forKey:name];
-
-		// Cleanup and move to the next item
-		[name release];
-		entry = h + increment;
-	}
-	crayolaNameCache = [cache copy];
-}
 @end

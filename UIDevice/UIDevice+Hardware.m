@@ -1,18 +1,30 @@
-/*
- Erica Sadun, http://ericasadun.com
- iPhone Developer's Cookbook, 5.0 Edition
- BSD License, Use at your own risk
- */
-
-// Thanks to Emanuele Vulcano, Kevin Ballard/Eridius, Ryandjohnson, Matt Brown, etc.
+//
+//  UIDevice+Hardware.m
+//  Additions
+//
+//  Created by Erica Sadun, http://ericasadun.com
+//  iPhone Developer's Cookbook, 5.0 Edition
+//  BSD License, Use at your own risk
+//  Thanks to Emanuele Vulcano, Kevin Ballard/Eridius, Ryandjohnson, Matt Brown, etc.
 
 #include <sys/socket.h> // Per msqr
 #include <sys/sysctl.h>
 #include <net/if.h>
 #include <net/if_dl.h>
 
+//
+//  UIDevice+Hardware.m
+//  Additions
+//
+//  Created by Erica Sadun, http://ericasadun.com
+//  iPhone Developer's Cookbook, 5.0 Edition
+//  BSD License, Use at your own risk
+
 #import "UIDevice+Hardware.h"
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
 @implementation UIDevice (Hardware)
 /*
  Platforms
@@ -266,14 +278,4 @@
     return outstring;
 }
 
-// Illicit Bluetooth check -- cannot be used in App Store
-/*
-Class  btclass = NSClassFromString(@"GKBluetoothSupport");
-if ([btclass respondsToSelector:@selector(bluetoothStatus)])
-{
-    printf("BTStatus %d\n", ((int)[btclass performSelector:@selector(bluetoothStatus)] & 1) != 0);
-    bluetooth = ((int)[btclass performSelector:@selector(bluetoothStatus)] & 1) != 0;
-    printf("Bluetooth %s enabled\n", bluetooth ? "is" : "isn't");
-}
-*/
 @end

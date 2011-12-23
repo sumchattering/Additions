@@ -1,6 +1,12 @@
-#import <UIKit/UIKit.h>
+//
+//  UIColor+Expanded.h
+//  Additions
+//
+//  Created by Erica Sadun, http://ericasadun.com
+//  iPhone Developer's Cookbook, 3.0 Edition
+//  BSD License, Use at your own risk
 
-#define SUPPORTS_UNDOCUMENTED_API	0
+#import <UIKit/UIKit.h>
 
 @interface UIColor (UIColor_Expanded)
 @property (nonatomic, readonly) CGColorSpaceModel colorSpaceModel;
@@ -85,12 +91,3 @@
 + (void)red:(CGFloat)r green:(CGFloat)g blue:(CGFloat)b toHue:(CGFloat *)h saturation:(CGFloat *)s brightness:(CGFloat *)v;
 
 @end
-
-#if SUPPORTS_UNDOCUMENTED_API
-// UIColor_Undocumented_Expanded
-// Methods which rely on undocumented methods of UIColor
-@interface UIColor (UIColor_Undocumented_Expanded)
-- (NSString *)fetchStyleString;
-- (UIColor *)rgbColor; // Via Poltras
-@end
-#endif // SUPPORTS_UNDOCUMENTED_API
