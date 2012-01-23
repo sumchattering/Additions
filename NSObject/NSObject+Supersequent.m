@@ -3,7 +3,6 @@
 //  HumanKitCatalog
 //
 //  Created by Sumeru Chatterjee on 12/24/11.
-//  Copyright (c) 2011 Sumeru Chatterjee. All rights reserved.
 //
 
 #import <objc/runtime.h>
