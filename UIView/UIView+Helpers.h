@@ -1,9 +1,8 @@
 //
-//  UIViewAdditions.h
-//  HumanKitCatalog
+//  UIView+Helpers.h
+//  Additions
 //
-//  Created by Sumeru Chatterjee on 12/19/11.
-//  Copyright (c) 2011 Sumeru Chatterjee. All rights reserved.
+//  Imported from three20 by Sumeru Chatterjee on 12/19/11.
 //
 
 #import <UIKit/UIKit.h>
@@ -13,7 +12,7 @@ typedef enum {
     UIViewFlipAnimationTypeFlipFromRight,
 } UIViewFlipAnimationType;
 
-@interface UIView (HICategory)
+@interface UIView (Helpers)
 
 /*
  * Method to remove all subviews

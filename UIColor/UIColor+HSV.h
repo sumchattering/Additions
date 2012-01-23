@@ -1,11 +1,10 @@
 //
-//  UIColorAdditions.h
+//  UIColor+HSV.h
 //  HumanKitCatalog
 //
-//  Created by Sumeru Chatterjee on 12/24/11.
+//  Imported from three20 by Sumeru Chatterjee on 12/24/11.
 //
 
-#import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
 #define RGBCOLOR(r,g,b) [UIColor colorWithRed:(r)/255.0f green:(g)/255.0f blue:(b)/255.0f alpha:1]
@@ -17,7 +16,7 @@ void RGBtoHSV(float r, float g, float b, float* h, float* s, float* v);
 
 void HSVtoRGB( float *r, float *g, float *b, float h, float s, float v );
 
-@interface UIColor (TTCategory)
+@interface UIColor (HSV)
 
 /**
  * Accepted ranges:

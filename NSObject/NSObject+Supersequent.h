@@ -1,10 +1,11 @@
 //
-//  NSObjectAdditions.h
+//  NSObject+Supersequent.h
 //  HumanKitCatalog
 //
 //  Created by Sumeru Chatterjee on 12/24/11.
-//  Copyright (c) 2011 Sumeru Chatterjee. All rights reserved.
-//
+//  The supersequent methods are courtesy of Matt Gallagher
+//  http://cocoawithlove.com/2008/03/supersequent-implementation.html
+//  
 
 #import <Foundation/Foundation.h>
 
@@ -23,7 +24,7 @@ IMP impOfCallingMethod(id lookupObject, SEL selector);
 //Description of Caller Method
 
 
-@interface NSObject (HICategory)
+@interface NSObject (Supersequent)
 -(NSString*) descriptionOfMethodAtStackDepth:(NSInteger)depth;
 - (IMP)getImplementationOf:(SEL)lookup after:(IMP)skip;
 + (BOOL)swizzleMethod:(SEL)origSel_ withMethod:(SEL)altSel_ error:(NSError**)error_;

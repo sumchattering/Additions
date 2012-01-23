@@ -1,12 +1,11 @@
 //
-//  UIColorAdditions.m
+//  UIColor+HSV.m
 //  HumanKitCatalog
 //
-//  Created by Sumeru Chatterjee on 12/24/11.
+//  Imported from three20 by Sumeru Chatterjee on 12/24/11.
 //
 
-#import "UIColorAdditions.h"
-
+#import "UIColor+HSV.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Color algorithms from http://www.cs.rit.edu/~ncs/color/t_convert.html
@@ -90,7 +89,7 @@ void HSVtoRGB( float *r, float *g, float *b, float h, float s, float v ) {
     }
 }
 
-@implementation UIColor (TTCategory)
+@implementation UIColor (HSV)
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 + (UIColor*)colorWithHue:(CGFloat)h saturation:(CGFloat)s value:(CGFloat)v alpha:(CGFloat)a {

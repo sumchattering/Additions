@@ -1,14 +1,13 @@
 //
-//  UIToolbarAdditions.m
-//  HumanKitCatalog
+//  UIToolbar+ReplaceItem.m
+//  Additions
 //
-//  Created by Sumeru Chatterjee on 1/13/12.
-//  Copyright (c) 2012 Sumeru Chatterjee. All rights reserved.
+//  Imported from three20 by Sumeru Chatterjee on 1/13/12.
 //
 
-#import "UIToolbarAdditions.h"
+#import "UIToolbar+ReplaceItem.h"
 
-@implementation UIToolbar (HICategory)
+@implementation UIToolbar (ReplaceItem)
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)replaceItemWithTag:(NSInteger)tag withItem:(UIBarButtonItem*)item {
@@ -23,6 +22,5 @@
         ++buttonIndex;
     }
 }
-
 
 @end

@@ -1,5 +1,5 @@
 //
-//  NSObjectAdditions.m
+//  NSObject+Supersequent.m
 //  HumanKitCatalog
 //
 //  Created by Sumeru Chatterjee on 12/24/11.
@@ -8,7 +8,7 @@
 
 #import <objc/runtime.h>
 #import <objc/message.h>
-#import "NSObjectAdditions.h"
+#import "NSObject+Supersequent.h"
 
 #define SetNSErrorFor(FUNC, ERROR_VAR, FORMAT,...)	\
 if (ERROR_VAR) {	\
@@ -73,7 +73,7 @@ IMP impOfCallingMethod(id lookupObject, SEL selector)
 }
 
 
-@implementation NSObject (HICategory)
+@implementation NSObject (Supersequent)
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 -(NSString*) descriptionOfMethodAtStackDepth:(NSInteger) depth {

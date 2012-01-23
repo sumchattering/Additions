@@ -1,14 +1,13 @@
 //
-//  UIFontAdditions.m
-//  HumanKitCatalog
+//  UIFont+Fit.m
+//  Additions
 //
 //  Created by Sumeru Chatterjee on 12/26/11.
-//  Copyright (c) 2011 Sumeru Chatterjee. All rights reserved.
 //
 
-#import "UIFontAdditions.h"
+#import "UIFont+Fit.h"
 
-@implementation UIFont (HICategory)
+@implementation UIFont (Fit)
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 +(UIFont*) maximumBoldSystemFontThatFitsString:(NSString*)string inWidth:(CGFloat)width {
