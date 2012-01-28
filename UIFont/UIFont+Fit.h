@@ -8,6 +8,7 @@
 #import <UIKit/UIKit.h>
 
 @interface UIFont (Fit) 
-+(UIFont*) maximumBoldSystemFontThatFitsString:(NSString*)string inWidth:(CGFloat)width;
++(UIFont*) maximumBoldSystemFontThatFitsSingleLineString:(NSString*)string inWidth:(CGFloat)width;
++(UIFont*) maximumBoldSystemFontThatFitsString:(NSString*)string inSize:(CGSize)maxSize;
 @end
 
