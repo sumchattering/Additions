@@ -1,6 +1,6 @@
 //
 //  UIColor+HSV.h
-//  HumanKitCatalog
+//  Additions
 //
 //  Imported from three20 by Sumeru Chatterjee on 12/24/11.
 //

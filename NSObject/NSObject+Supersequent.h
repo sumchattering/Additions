@@ -1,6 +1,6 @@
 //
 //  NSObject+Supersequent.h
-//  HumanKitCatalog
+//  Additions
 //
 //  Created by Sumeru Chatterjee on 12/24/11.
 //  The supersequent methods are courtesy of Matt Gallagher

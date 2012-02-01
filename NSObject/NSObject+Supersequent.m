@@ -1,6 +1,6 @@
 //
 //  NSObject+Supersequent.m
-//  HumanKitCatalog
+//  Additions
 //
 //  Created by Sumeru Chatterjee on 12/24/11.
 //
