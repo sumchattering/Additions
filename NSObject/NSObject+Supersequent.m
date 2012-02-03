@@ -22,13 +22,13 @@ userInfo:[NSDictionary dictionaryWithObject:errStr forKey:NSLocalizedDescription
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-BOOL protocol_containsSelector(Protocol *p, SEL aSel) {    
-    
+BOOL protocol_containsSelector(Protocol *p, SEL aSel) {
+
     //Check for required methods
     struct objc_method_description methodDescription = protocol_getMethodDescription(p,aSel, YES, YES);
-    if(methodDescription.name!=nil)
+    if (methodDescription.name!=nil)
         return YES;
-    
+
     //Check for optional methods
     methodDescription = protocol_getMethodDescription(p,aSel, NO, YES);
     return (methodDescription.name!=nil);
@@ -40,7 +40,7 @@ IMP impOfCallingMethod(id lookupObject, SEL selector)
 {
     NSUInteger returnAddress = (NSUInteger)__builtin_return_address(0);
     NSUInteger closest = 0;
-    
+
     // Iterate over the class and all superclasses
     Class currentClass = object_getClass(lookupObject);
     while (currentClass)
@@ -56,7 +56,7 @@ IMP impOfCallingMethod(id lookupObject, SEL selector)
             {
                 continue;
             }
-            
+
             // If this address is closer, use it instead
             NSUInteger address = (NSUInteger)method_getImplementation(methodList[i]);
             if (address < returnAddress && address > closest)
@@ -64,7 +64,7 @@ IMP impOfCallingMethod(id lookupObject, SEL selector)
                 closest = address;
             }
         }
-        
+
         free(methodList);
         currentClass = class_getSuperclass(currentClass);
     }
@@ -76,12 +76,13 @@ IMP impOfCallingMethod(id lookupObject, SEL selector)
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 -(NSString*) descriptionOfMethodAtStackDepth:(NSInteger) depth {
-    
-    NSArray *syms = [NSThread  callStackSymbols]; 
-    if ([syms count] > depth+1) { 
+
+    NSArray *syms = [NSThread  callStackSymbols];
+    if ([syms count] > depth+1) {
         return [NSString stringWithFormat:@"%@",[syms objectAtIndex:depth+1]];
+
     } else {
-        return [NSString stringWithString:@"Depth exceeds maximum depth"]; 
+        return [NSString stringWithString:@"Depth exceeds maximum depth"];
     }
 }
 
@@ -89,16 +90,16 @@ IMP impOfCallingMethod(id lookupObject, SEL selector)
 // default one. Returns nil if no alternate implementation is found.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (IMP)getImplementationOf:(SEL)lookup after:(IMP)skip
-{   
+{
     BOOL found = NO;
-    
+
     Class currentClass = object_getClass(self);
     while (currentClass)
     {
         // Get the list of methods for this class
         unsigned int methodCount;
         Method *methodList = class_copyMethodList(currentClass, &methodCount);
-        
+
         // Iterate over all methods
         unsigned int i;
         for (i = 0; i < methodCount; i++)
@@ -108,9 +109,9 @@ IMP impOfCallingMethod(id lookupObject, SEL selector)
             {
                 continue;
             }
-            
+
             IMP implementation = method_getImplementation(methodList[i]);
-            
+
             // Check if this is the "skip" implementation
             if (implementation == skip)
             {
@@ -123,10 +124,10 @@ IMP impOfCallingMethod(id lookupObject, SEL selector)
                 return implementation;
             }
         }
-        
+
         // No match found. Traverse up through super class' methods.
         free(methodList);
-        
+
         currentClass = class_getSuperclass(currentClass);
     }
     return nil;
@@ -134,19 +135,19 @@ IMP impOfCallingMethod(id lookupObject, SEL selector)
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 + (BOOL)swizzleMethod:(SEL)origSel_ withMethod:(SEL)altSel_ error:(NSError**)error_ {
-	
+
     Method origMethod = class_getInstanceMethod(self, origSel_);
 	if (!origMethod) {
 		SetNSError(error_, @"original method %@ not found for class %@", NSStringFromSelector(origSel_), [self class]);
 		return NO;
 	}
-    
+
 	Method altMethod = class_getInstanceMethod(self, altSel_);
 	if (!altMethod) {
 		SetNSError(error_, @"alternate method %@ not found for class %@", NSStringFromSelector(altSel_), [self class]);
 		return NO;
 	}
-    
+
 	class_addMethod(self,
 					origSel_,
 					class_getMethodImplementation(self, origSel_),
@@ -155,7 +156,7 @@ IMP impOfCallingMethod(id lookupObject, SEL selector)
 					altSel_,
 					class_getMethodImplementation(self, altSel_),
 					method_getTypeEncoding(altMethod));
-    
+
 	method_exchangeImplementations(class_getInstanceMethod(self, origSel_), class_getInstanceMethod(self, altSel_));
 	return YES;
 }
@@ -195,14 +196,14 @@ IMP impOfCallingMethod(id lookupObject, SEL selector)
 {
 	Class cl = [self class];
 	NSMutableArray *results = [NSMutableArray arrayWithObject:cl];
-    
+
 	do
 	{
 		cl = [cl superclass];
 		[results addObject:cl];
 	}
 	while (![cl isEqual:[NSObject class]]) ;
-    
+
 	return results;
 }
 

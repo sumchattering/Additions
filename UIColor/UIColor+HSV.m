@@ -106,16 +106,16 @@ void HSVtoRGB( float *r, float *g, float *b, float h, float s, float v ) {
     CGFloat g = rgba[1];
     CGFloat b = rgba[2];
     CGFloat a = rgba[3];
-    
+
     CGFloat h, s, v;
     RGBtoHSV(r, g, b, &h, &s, &v);
-    
+
     h *= hd;
     v *= vd;
     s *= sd;
-    
+
     HSVtoRGB(&r, &g, &b, h, s, v);
-    
+
     return [UIColor colorWithRed:r green:g blue:b alpha:a];
 }
 
@@ -126,7 +126,7 @@ void HSVtoRGB( float *r, float *g, float *b, float h, float s, float v ) {
     CGFloat r = rgba[0];
     CGFloat g = rgba[1];
     CGFloat b = rgba[2];
-    
+
     return [[UIColor colorWithRed:r green:g blue:b alpha:newAlpha] retain];
 }
 
@@ -138,16 +138,16 @@ void HSVtoRGB( float *r, float *g, float *b, float h, float s, float v ) {
     CGFloat g = rgba[1];
     CGFloat b = rgba[2];
     CGFloat a = rgba[3];
-    
+
     CGFloat h, s, v;
     RGBtoHSV(r, g, b, &h, &s, &v);
-    
+
     h += hd;
     v += vd;
     s += sd;
-    
+
     HSVtoRGB(&r, &g, &b, h, s, v);
-    
+
     return [UIColor colorWithRed:r green:g blue:b alpha:a];
 }
 

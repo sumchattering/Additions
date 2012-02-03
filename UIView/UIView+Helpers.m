@@ -11,6 +11,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 @interface UIView (Private)
+///////////////////////////////////////////////////////////////////////////////////////////////////
 -(void) resetAndRemoveFromSuperView;
 @end
 
@@ -20,17 +21,17 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 -(void) removeAllSubviews {
-    
+
     [[self subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 -(void) removeAllSubviewsExceptSubview:(UIView*)subview {
-    
-    for(UIView* view in [self subviews]) {
-        if(view!=subview) {
+
+    for (UIView* view in [self subviews]) {
+        if (view!=subview) {
             [view removeFromSuperview];
-        }    
+        }
     }
 }
 
@@ -38,13 +39,13 @@
 - (UIView*)descendantOrSelfWithClass:(Class)cls {
     if ([self isKindOfClass:cls])
         return self;
-    
+
     for (UIView* child in self.subviews) {
         UIView* it = [child descendantOrSelfWithClass:cls];
         if (it)
             return it;
     }
-    
+
     return nil;
 }
 
@@ -69,7 +70,7 @@
 	moveFront.fromValue = [NSValue valueWithCGSize:CGSizeMake(3,3)];
  	moveFront.toValue = [NSValue valueWithCGSize:CGSizeMake(50,50)];
 	moveFront.beginTime = 0.0;
-	
+
 	CABasicAnimation *rotateFirstHalf;
 	rotateFirstHalf=[CABasicAnimation animationWithKeyPath:@"transform"];
 	rotateFirstHalf.delegate = self;
@@ -79,13 +80,14 @@
 	rotateFirstHalf.fillMode = kCAFillModeForwards;
 	rotateFirstHalf.autoreverses = NO;
 	rotateFirstHalf.beginTime = 0.0;
-    
+
     if (animationType==UIViewFlipAnimationTypeFlipFromRight) {
         rotateFirstHalf.toValue = [NSValue valueWithCATransform3D:CATransform3DMakeRotation(1.0f * M_PI/2, 0, 1, 0)];
+
     } else {
         rotateFirstHalf.toValue = [NSValue valueWithCATransform3D:CATransform3DMakeRotation(-1.0f * M_PI/2, 0, 1, 0)];
     }
-	
+
 	CABasicAnimation *moveBack;
 	moveBack=[CABasicAnimation animationWithKeyPath:@"shadowOffset"];
 	moveBack.delegate = self;
@@ -97,7 +99,7 @@
 	moveBack.fromValue = [NSValue valueWithCGSize:CGSizeMake(50,50)];
  	moveBack.toValue = [NSValue valueWithCGSize:CGSizeMake(3,3)];
 	moveBack.beginTime = duration/2;
-    
+
     CABasicAnimation *rotateSecondHalf;
 	rotateSecondHalf=[CABasicAnimation animationWithKeyPath:@"transform"];
 	rotateSecondHalf.delegate = self;
@@ -107,42 +109,43 @@
 	rotateSecondHalf.fillMode = kCAFillModeForwards;
 	rotateSecondHalf.autoreverses = NO;
 	rotateSecondHalf.beginTime = duration/2;
-	
+
     if (animationType==UIViewFlipAnimationTypeFlipFromLeft) {
         rotateSecondHalf.fromValue = [NSValue valueWithCATransform3D:CATransform3DMakeRotation(-1.0f * M_PI/2, 0, 1, 0)];
         rotateSecondHalf.toValue = [NSValue valueWithCATransform3D:CATransform3DMakeRotation(0, M_PI, 1, 0)];
+
     } else {
         rotateSecondHalf.fromValue = [NSValue valueWithCATransform3D:CATransform3DMakeRotation(1.0f * M_PI/2, 0, 1, 0)];
         rotateSecondHalf.toValue = [NSValue valueWithCATransform3D:CATransform3DMakeRotation(0, M_PI, 1, 0)];
     }
-    
+
 	CAAnimationGroup *firstGroup = [CAAnimationGroup animation];
 	[firstGroup setAnimations:[NSArray arrayWithObjects:moveFront,rotateFirstHalf,nil]];
 	[firstGroup setDuration:duration];
 	[firstGroup setRemovedOnCompletion:NO];
 	[firstGroup setFillMode:kCAFillModeForwards];
-    
+
     CAAnimationGroup *secondGroup = [CAAnimationGroup animation];
 	[secondGroup setAnimations:[NSArray arrayWithObjects:moveBack,rotateSecondHalf,nil]];
 	[secondGroup setDuration:duration];
 	[secondGroup setRemovedOnCompletion:NO];
 	[secondGroup setFillMode:kCAFillModeForwards];
-	
+
     toView.frame=fromView.frame;
     toView.layer.transform = CATransform3DMakeRotation(-M_PI/2,0,1,0);
     toView.layer.shadowOffset = CGSizeMake(50,50);
     [[fromView superview] addSubview:toView];
-    
+
     [fromView.layer addAnimation:firstGroup forKey:@"flip_animation"];
     [toView.layer addAnimation:secondGroup forKey:@"flip_animation"];
-    
+
     //Schedule a callback to reset and remove superview after animation finishes
     NSMethodSignature * mySignature = [UIView instanceMethodSignatureForSelector:@selector(resetAndRemoveFromSuperView)];
     NSInvocation * myInvocation = [NSInvocation invocationWithMethodSignature:mySignature];
     [myInvocation setTarget:fromView];
     [myInvocation setSelector:@selector(resetAndRemoveFromSuperView)];
     NSTimer *timer = [NSTimer timerWithTimeInterval:duration invocation:myInvocation repeats:NO];
-    if(timer) {
+    if (timer) {
         [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
     }
 }
@@ -172,12 +175,12 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)setTop:(CGFloat)y {
-    
-    if(y!=self.top) {
+
+    if (y!=self.top) {
         CGRect frame = self.frame;
         frame.origin.y = y;
         self.frame = frame;
-    }    
+    }
 }
 
 
@@ -189,7 +192,7 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)setRight:(CGFloat)right {
-    
+
     CGRect frame = self.frame;
     frame.origin.x = right - frame.size.width;
     self.frame = frame;
@@ -291,11 +294,11 @@
 #pragma mark Private
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
--(void) resetAndRemoveFromSuperView 
+-(void) resetAndRemoveFromSuperView
 {
     self.layer.shadowOffset = CGSizeMake(3,3);
     self.layer.transform = CATransform3DMakeRotation(0,0,1,0);
     [self removeFromSuperview];
-}    
+}
 
 @end
