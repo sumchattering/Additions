@@ -14,10 +14,11 @@
 {
     //TODO:Fix the regex
 
-    NSString* url;
+    
 	//NSString* pattern =  @"(http|https)://((\\w)*|([0-9]*)|([-|_])*)+([\\.|/]((\\w)*|([0-9]*)|([-|_])*))+";
 	NSString* schemePattern = @"(http|https)://(([a-zA-Z0-9-.]+\\.[a-zA-Z]{2,3})|([0-2]*\\d*\\d\\.[0-2]*\\d*\\d\\.[0-2]*\\d*\\d\\.[0-2]*\\d*\\d))(:[a-zA-Z0-9]*)?/?([a-zA-Z0-9-._\\?\\,\\'/\\+&%\\$#\\=~])*[^.\\,)(\\s]$";
-	if (url = [self firstStringWithPattern:schemePattern]) {
+    NSString* url=[self firstStringWithPattern:schemePattern];
+	if (url ) {
 		return url;
 	}
 
@@ -33,8 +34,8 @@
 	NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern
 																		   options:NSRegularExpressionCaseInsensitive
 																			 error:&err];
-	NSTextCheckingResult* match;
-	if (match = [regex firstMatchInString:self options:0 range:NSMakeRange(0, [self length])]) {
+	NSTextCheckingResult* match = [regex firstMatchInString:self options:0 range:NSMakeRange(0, [self length])];
+	if (match) {
 
 		if ([match numberOfRanges]>1)
 			result = [self substringWithRange:[match rangeAtIndex:1]];
@@ -54,10 +55,10 @@
 	NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern
 																		   options:NSRegularExpressionCaseInsensitive
 																			 error:&err];
-	NSTextCheckingResult* match;
 	NSRange selfRange = NSMakeRange(0, [self length]);
+    NSTextCheckingResult* match = [regex firstMatchInString:self options:0 range:selfRange];
 
-	if (match = [regex firstMatchInString:self options:0 range:selfRange]) {
+	if (match) {
 
 		result = NSEqualRanges([match range],selfRange);
 	}

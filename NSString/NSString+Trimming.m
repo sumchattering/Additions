@@ -19,7 +19,7 @@
     unichar charBuffer[length];
     [self getCharacters:charBuffer];
 
-    for (location; location < length; location++) {
+    for (location=0; location < length; location++) {
         if (![characterSet characterIsMember:charBuffer[location]]) {
             break;
         }
@@ -34,7 +34,7 @@
     unichar charBuffer[length];
     [self getCharacters:charBuffer];
 
-    for (length; length > 0; length--) {
+    for (length=[self length]; length > 0; length--) {
         if (![characterSet characterIsMember:charBuffer[length - 1]]) {
             break;
         }
