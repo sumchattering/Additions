@@ -82,7 +82,7 @@ IMP impOfCallingMethod(id lookupObject, SEL selector)
         return [NSString stringWithFormat:@"%@",[syms objectAtIndex:depth+1]];
 
     } else {
-        return [NSString stringWithString:@"Depth exceeds maximum depth"];
+        return @"Depth exceeds maximum depth";
     }
 }
 
