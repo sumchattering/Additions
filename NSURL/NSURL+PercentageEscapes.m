@@ -12,7 +12,9 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 -(NSURL*)unescapedURL {
-    return [NSURL URLWithString:[[self absoluteString] stringByReplacingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
+    return [NSURL URLWithString:[[[self absoluteString]
+                                  stringByReplacingPercentEscapesUsingEncoding:NSASCIIStringEncoding]
+                                  stringByReplacingOccurrencesOfString:@"&amp;" withString:@"&"]];
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
