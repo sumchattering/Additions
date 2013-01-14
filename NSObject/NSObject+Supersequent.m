@@ -79,7 +79,7 @@ IMP impOfCallingMethod(id lookupObject, SEL selector)
 
     NSArray *syms = [NSThread  callStackSymbols];
     if ([syms count] > depth+1) {
-        return [NSString stringWithFormat:@"%@",[syms objectAtIndex:depth+1]];
+	return [NSString stringWithFormat:@"%@",syms[depth+1]];
 
     } else {
         return @"Depth exceeds maximum depth";
@@ -174,7 +174,7 @@ IMP impOfCallingMethod(id lookupObject, SEL selector)
 	unsigned int num;
 	Ivar *ivars = class_copyIvarList(self, &num);
 	for (int i = 0; i < num; i++)
-		[ivarNames addObject:[NSString stringWithCString:ivar_getName(ivars[i]) encoding:NSUTF8StringEncoding]];
+		[ivarNames addObject:@(ivar_getName(ivars[i]))];
 	free(ivars);
 	return ivarNames;
 }
@@ -184,9 +184,9 @@ IMP impOfCallingMethod(id lookupObject, SEL selector)
 - (NSDictionary *) ivars
 {
 	NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-	[dict setObject:[[self class] getIvarListForClass] forKey:NSStringFromClass([self class])];
+	dict[NSStringFromClass([self class])] = [[self class] getIvarListForClass];
 	for (Class cl in [self superclasses])
-		[dict setObject:[cl getIvarListForClass] forKey:NSStringFromClass(cl)];
+		dict[NSStringFromClass(cl)] = [cl getIvarListForClass];
 	return dict;
 }
 

@@ -15,7 +15,7 @@
     for (UIBarButtonItem* button in self.items) {
         if (button.tag == tag) {
             NSMutableArray* newItems = [NSMutableArray arrayWithArray:self.items];
-            [newItems replaceObjectAtIndex:buttonIndex withObject:item];
+	    newItems[buttonIndex] = item;
             self.items = newItems;
             break;
         }

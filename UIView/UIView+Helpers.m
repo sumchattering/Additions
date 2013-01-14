@@ -120,13 +120,13 @@
     }
 
 	CAAnimationGroup *firstGroup = [CAAnimationGroup animation];
-	[firstGroup setAnimations:[NSArray arrayWithObjects:moveFront,rotateFirstHalf,nil]];
+	[firstGroup setAnimations:@[moveFront,rotateFirstHalf]];
 	[firstGroup setDuration:duration];
 	[firstGroup setRemovedOnCompletion:NO];
 	[firstGroup setFillMode:kCAFillModeForwards];
 
     CAAnimationGroup *secondGroup = [CAAnimationGroup animation];
-	[secondGroup setAnimations:[NSArray arrayWithObjects:moveBack,rotateSecondHalf,nil]];
+	[secondGroup setAnimations:@[moveBack,rotateSecondHalf]];
 	[secondGroup setDuration:duration];
 	[secondGroup setRemovedOnCompletion:NO];
 	[secondGroup setFillMode:kCAFillModeForwards];
