@@ -12,7 +12,7 @@
     NSArray *variables;
 }
 
-@property (nonatomic, retain) NSArray *variables;
+@property (nonatomic, strong) NSArray *variables;
 
 - (id)initWithURLString:(NSString *)url;
 - (NSString *)valueForVariable:(NSString *)varName;

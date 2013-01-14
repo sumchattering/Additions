@@ -41,8 +41,13 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (NSString *)stringByConvertingHTMLToPlainText {
 
+    NSString *retString;
 	// Pool
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+#if __has_feature (objc_arc)
+    @autoreleasepool {
+#else
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+#endif
 
 	// Character sets
 	NSCharacterSet *stopCharacters = [NSCharacterSet characterSetWithCharactersInString:[NSString stringWithFormat:@"< \t\n\r%c%c%c%c", 0x0085, 0x000C, 0x2028, 0x2029]];
@@ -120,18 +125,23 @@
 	} while (![scanner isAtEnd]);
 
 	// Cleanup
-	[scanner release];
 
 	// Decode HTML entities and return
-	NSString *retString = [[result stringByDecodingHTMLEntities] retain];
-	[result release];
+    retString = [result stringByDecodingHTMLEntities];
 
 	// Drain
-	[pool drain];
+#if __has_feature (objc_arc)
+    }
+#else
+    [pool drain];
+#endif
 
+#if __has_feature (objc_arc)
+    return retString;
+#else
+    return [retString autorelease];
+#endif
 	// Return
-	return [retString autorelease];
-
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -148,9 +158,14 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (NSString *)stringWithNewLinesAsBRs {
-
+    
+    NSString *retString;
 	// Pool
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+#if __has_feature (objc_arc)
+    @autoreleasepool {
+#else
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+#endif
 
 	// Strange New lines:
 	//	Next Line, U+0085
@@ -194,23 +209,34 @@
 	} while (![scanner isAtEnd]);
 
 	// Cleanup & return
-	[scanner release];
-	NSString *retString = [[NSString stringWithString:result] retain];
-	[result release];
+	retString = [NSString stringWithString:result];
 
 	// Drain
-	[pool drain];
+#if __has_feature (objc_arc)
+    }
+#else
+    [pool drain];
+#endif
 
 	// Return
-	return [retString autorelease];
+#if __has_feature (objc_arc)
+    return retString;
+#else
+    return [retString autorelease];
+#endif
 
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (NSString *)stringByRemovingNewLinesAndWhitespace {
 
+    NSString *retString;
 	// Pool
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+#if __has_feature (objc_arc)
+    @autoreleasepool {
+#else
+        NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+#endif
 
 	// Strange New lines:
 	//	Next Line, U+0085
@@ -242,17 +268,23 @@
 	}
 
 	// Cleanup
-	[scanner release];
 
 	// Return
-	NSString *retString = [[NSString stringWithString:result] retain];
-	[result release];
+	retString = [NSString stringWithString:result];
 
 	// Drain
-	[pool drain];
+#if __has_feature (objc_arc)
+    }
+#else
+    [pool drain];
+#endif
 
 	// Return
-	return [retString autorelease];
+#if __has_feature (objc_arc)
+    return retString;
+#else
+    return [retString autorelease];
+#endif
 
 }
 
@@ -260,8 +292,13 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (NSString *)stringByStrippingTags {
 
+    NSString *finalString;
 	// Pool
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+#if __has_feature (objc_arc)
+    @autoreleasepool {
+#else
+        NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+#endif
 
 	// Find first & and short-cut if we can
 	NSUInteger ampIndex = [self rangeOfString:@"<" options:NSLiteralSearch].location;
@@ -285,14 +322,12 @@
 		if (tag) {
 			NSString *t = [[NSString alloc] initWithFormat:@"%@>", tag];
 			[tags addObject:t];
-			[t release];
 		}
 
 	} while (![scanner isAtEnd]);
 
 	// Strings
 	NSMutableString *result = [[NSMutableString alloc] initWithString:self];
-	NSString *finalString;
 
 	// Replace tags
 	NSString *replacement;
@@ -319,17 +354,23 @@
 	}
 
 	// Remove multi-spaces and line breaks
-	finalString = [[result stringByRemovingNewLinesAndWhitespace] retain];
+	finalString = [result stringByRemovingNewLinesAndWhitespace];
 
 	// Cleanup
-	[result release];
-	[tags release];
 
-	// Drain
-	[pool drain];
-
+        // Drain
+#if __has_feature (objc_arc)
+    }
+#else
+    [pool drain];
+#endif
+    
 	// Return
+#if __has_feature (objc_arc)
+    return finalString;
+#else
     return [finalString autorelease];
+#endif
 
 }
 

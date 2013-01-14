@@ -23,10 +23,9 @@
 		//ignore the beginning of the string and skip to the vars
         [scanner scanUpToString:@"?" intoString:nil];
         while ([scanner scanUpToString:@"&" intoString:&tempString]) {
-            [vars addObject:[[tempString copy] autorelease]];
+            [vars addObject:[tempString copy]];
         }
         self.variables = vars;
-        [vars release];
     }
     return self;
 }
@@ -43,9 +42,5 @@
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-- (void) dealloc{
-    self.variables = nil;
-    [super dealloc];
-}
 
 @end

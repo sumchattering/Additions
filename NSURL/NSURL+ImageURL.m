@@ -22,7 +22,7 @@
     //Process Imgur URLs
     if(([[URL host] isEqualToString:@"imgur.com"]
         ||[[URL host] isEqualToString:@"www.imgur.com"])&&([[URL pathComponents] count]<3)){
-        NSURL* iURL = [[[NSURL alloc] initWithScheme:@"http" host:@"i.imgur.com" path:URL.path] autorelease];
+        NSURL* iURL = [[NSURL alloc] initWithScheme:@"http" host:@"i.imgur.com" path:URL.path];
         return [iURL URLByAppendingPathExtension:@"jpg"];
     }
     
@@ -34,7 +34,7 @@
     
     //Process qkme.me URLs
     if([[URL host] isEqualToString:@"qkme.me"]||[[URL host] isEqualToString:@"www.qkme.me"]){
-        NSURL* iURL = [[[NSURL alloc] initWithScheme:@"http" host:@"i.qkme.me" path:URL.path] autorelease];
+        NSURL* iURL = [[NSURL alloc] initWithScheme:@"http" host:@"i.qkme.me" path:URL.path];
         return [iURL URLByAppendingPathExtension:@"jpg"];
     }
     

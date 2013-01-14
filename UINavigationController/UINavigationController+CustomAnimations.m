@@ -77,7 +77,7 @@ typedef void(^TransitionBlock)(void);
 {
     UIViewController* returnViewController = nil;
 
-    UIViewController* viewController = [self.topViewController retain];
+    UIViewController* viewController = self.topViewController;
 	if ([self animationMethodForTransitionStyle:transitionStyle]== AnimationMethodUIViewAnimation ) {
 
 		returnViewController = [self popViewControllerAnimated:NO];
@@ -93,7 +93,6 @@ typedef void(^TransitionBlock)(void);
 		returnViewController = [self popViewControllerAnimated:NO];
 	}
 
-    [viewController release];
     return returnViewController;
 }
 
@@ -133,20 +132,20 @@ typedef void(^TransitionBlock)(void);
 	switch (transitionStyle) {
 		case UINavigationCustomTransitionStyleZoom:
 			if (forward) {
-				return [[^{
+				return [^{
 					[[self.topViewController view] addSubview:controller.view];
 					[controller viewWillAppear:YES];
 					controller.view.transform=CGAffineTransformMakeScale(0.001, 0.001);
-				} copy] autorelease];
+				} copy];
 
 			} else {
-				return [[^{
+				return [^{
 					[[self.topViewController view] addSubview:controller.view];
-				} copy] autorelease];
+				} copy];
 			}
 
 		default:
-			return [[^{} copy] autorelease];;
+			return [^{} copy];;
 	}
 }
 
@@ -157,18 +156,18 @@ typedef void(^TransitionBlock)(void);
 	switch (transitionStyle) {
 		case UINavigationCustomTransitionStyleZoom:
 			if (forward) {
-				return [[^{
+				return [^{
 					controller.view.transform=CGAffineTransformMakeScale(1, 1);
-				} copy] autorelease];
+				} copy];
 
 			} else {
-				return [[^{
+				return [^{
 					controller.view.transform=CGAffineTransformMakeScale(0.001, 0.001);
-				} copy] autorelease];
+				} copy];
 			}
 
 		default:
-			return [[^{} copy] autorelease];
+			return [^{} copy];
 	}
 }
 
@@ -178,18 +177,18 @@ typedef void(^TransitionBlock)(void);
 	switch (transitionStyle) {
 		case UINavigationCustomTransitionStyleZoom:
 			if (forward) {
-				return [[^{
+				return [^{
 					[controller.view removeFromSuperview];
-				} copy] autorelease];
+				} copy];
 
 			} else {
-				return [[^{
+				return [^{
 					[controller.view removeFromSuperview];
 					controller.view.transform=CGAffineTransformMakeScale(1, 1);
-				} copy] autorelease];
+				} copy];
 			}
 		default:
-			return [[^{} copy] autorelease];
+			return [^{} copy];
 	}
 }
 
@@ -211,7 +210,7 @@ typedef void(^TransitionBlock)(void);
 - (TransitionBlock) transitionBlockForTransitionStyle:(UINavigationCustomTransitionStyle)transitionStyle controller:(UIViewController*)controller forward:(BOOL)forward;
 {
 	if (forward) {
-		return [[^{
+		return [^{
 			CATransition *transition = [CATransition animation];
 			transition.duration = [self animationDurationFromTransitionStyle:transitionStyle];
 			transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
@@ -220,10 +219,10 @@ typedef void(^TransitionBlock)(void);
 			transition.subtype = [self transitionForwardSubtypeFromTransitionStyle:transitionStyle];
 
 			[[self.view layer] addAnimation:transition forKey:@"transition"];
-		} copy] autorelease];
+		} copy];
 
 	} else {
-		return [[^{
+		return [^{
 			CATransition *transition = [CATransition animation];
 			transition.duration = [self animationDurationFromTransitionStyle:transitionStyle];
 			transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
@@ -232,7 +231,7 @@ typedef void(^TransitionBlock)(void);
 			transition.subtype =  [self transitionBackwardSubtypeFromTransitionStyle:transitionStyle];
 
 			[[self.view layer] addAnimation:transition forKey:@"transition"];
-		} copy] autorelease];
+		} copy];
 	}
 }
 

@@ -23,7 +23,7 @@
 
 	[array addObject:object];
 	for (NSInteger iteration=1; iteration<count; iteration++) {
-		[array addObject:[[object copy] autorelease]];
+		[array addObject:[object copy]];
 	}
 
 	return [NSArray arrayWithArray:array];
