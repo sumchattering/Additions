@@ -109,7 +109,7 @@
 		}
 		else
 		{
-			NSString *type = [NSString stringWithCString:argtype encoding:NSUTF8StringEncoding];
+			NSString *type = @(argtype);
 			if ([type isEqualToString:@"{CGRect={CGPoint=ff}{CGSize=ff}}"])
 			{
 				CGRect arect = va_arg(arguments, CGRect);
@@ -245,7 +245,7 @@
 	{
 		double f;
 		[inv getReturnValue:&f];
-		return [NSNumber numberWithDouble:f];
+		return @(f);
 	}
 
 	// return NSNumber version of byte. Use valueBy version for recovering chars
@@ -262,13 +262,13 @@
 	{
 		char *s;
 		[inv getReturnValue:s];
-		return [NSString stringWithCString:s encoding:NSUTF8StringEncoding];
+		return @(s);
 	}
 
 	// return integer
 	long l;
 	[inv getReturnValue:&l];
-	return [NSNumber numberWithLong:l];
+	return @(l);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -399,9 +399,9 @@
 - (NSDictionary *) selectors
 {
 	NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-	[dict setObject:[[self class] getSelectorListForClass] forKey:NSStringFromClass([self class])];
+	dict[NSStringFromClass([self class])] = [[self class] getSelectorListForClass];
 	for (Class cl in [self superclasses])
-		[dict setObject:[cl getSelectorListForClass] forKey:NSStringFromClass(cl)];
+		dict[NSStringFromClass(cl)] = [cl getSelectorListForClass];
 	return dict;
 }
 
@@ -413,7 +413,7 @@
 	unsigned int num;
 	objc_property_t *properties = class_copyPropertyList(self, &num);
 	for (int i = 0; i < num; i++)
-		[propertyNames addObject:[NSString stringWithCString:property_getName(properties[i]) encoding:NSUTF8StringEncoding]];
+		[propertyNames addObject:@(property_getName(properties[i]))];
 	free(properties);
 	return propertyNames;
 }
@@ -423,9 +423,9 @@
 - (NSDictionary *) properties
 {
 	NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-	[dict setObject:[[self class] getPropertyListForClass] forKey:NSStringFromClass([self class])];
+	dict[NSStringFromClass([self class])] = [[self class] getPropertyListForClass];
 	for (Class cl in [self superclasses])
-		[dict setObject:[cl getPropertyListForClass] forKey:NSStringFromClass(cl)];
+		dict[NSStringFromClass(cl)] = [cl getPropertyListForClass];
 	return dict;
 }
 
@@ -437,7 +437,7 @@
 	unsigned int num;
 	Ivar *ivars = class_copyIvarList(self, &num);
 	for (int i = 0; i < num; i++)
-		[ivarNames addObject:[NSString stringWithCString:ivar_getName(ivars[i]) encoding:NSUTF8StringEncoding]];
+		[ivarNames addObject:@(ivar_getName(ivars[i]))];
 	free(ivars);
 	return ivarNames;
 }
@@ -447,9 +447,9 @@
 - (NSDictionary *) ivars
 {
 	NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-	[dict setObject:[[self class] getIvarListForClass] forKey:NSStringFromClass([self class])];
+	dict[NSStringFromClass([self class])] = [[self class] getIvarListForClass];
 	for (Class cl in [self superclasses])
-		[dict setObject:[cl getIvarListForClass] forKey:NSStringFromClass(cl)];
+		dict[NSStringFromClass(cl)] = [cl getIvarListForClass];
 	return dict;
 }
 
@@ -461,7 +461,7 @@
 	unsigned int num;
 	Protocol **protocols = class_copyProtocolList(self, &num);
 	for (int i = 0; i < num; i++)
-		[protocolNames addObject:[NSString stringWithCString:protocol_getName(protocols[i]) encoding:NSUTF8StringEncoding]];
+		[protocolNames addObject:@(protocol_getName(protocols[i]))];
 	free(protocols);
 	return protocolNames;
 }
@@ -471,9 +471,9 @@
 - (NSDictionary *) protocols
 {
 	NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-	[dict setObject:[[self class] getProtocolListForClass] forKey:NSStringFromClass([self class])];
+	dict[NSStringFromClass([self class])] = [[self class] getProtocolListForClass];
 	for (Class cl in [self superclasses])
-		[dict setObject:[cl getProtocolListForClass] forKey:NSStringFromClass(cl)];
+		dict[NSStringFromClass(cl)] = [cl getProtocolListForClass];
 	return dict;
 }
 

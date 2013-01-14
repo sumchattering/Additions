@@ -50,9 +50,9 @@
 
 		const char* type = ivar_getTypeEncoding(var);
 
-		NSString* nameString = [NSString stringWithCString:name encoding:NSASCIIStringEncoding];
+		NSString* nameString = @(name);
 
-		NSString* typeString = [NSString stringWithCString:type encoding:NSASCIIStringEncoding];
+		NSString* typeString = @(type);
 
 		NSString* pureTypeString = [typeString stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"@\""]];
 
