@@ -260,7 +260,7 @@
 	// return c-string
 	if (strcmp(returnType, @encode (char*)) == 0)
 	{
-		char *s;
+		char *s=nil;
 		[inv getReturnValue:s];
 		return @(s);
 	}

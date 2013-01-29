@@ -197,9 +197,9 @@ typedef void(^TransitionBlock)(void);
 {
     switch (transitionStyle) {
 		case UINavigationCustomTransitionStyleZoom:
-			return forward?UIViewAnimationCurveEaseOut:UIViewAnimationCurveEaseIn;
+			return forward?UIViewAnimationOptionCurveEaseOut:UIViewAnimationOptionCurveEaseIn;
 		default:
-			return UIViewAnimationCurveEaseInOut;
+			return UIViewAnimationOptionCurveEaseInOut;
 	}
 }
 
