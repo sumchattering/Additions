@@ -9,9 +9,7 @@
 #import <Foundation/Foundation.h>
 
 
-@interface DKStack : NSObject {
-    NSMutableArray* array;
-}
+@interface DKStack : NSObject
 
 - (NSArray*) objects;
 - (void)pop;

@@ -8,7 +8,9 @@
 
 #import "DKStack.h"
 
-@implementation DKStack
+@implementation DKStack{
+    __strong NSMutableArray* array;
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (id)init

@@ -12,13 +12,9 @@
 
 @interface DDFileReader : NSObject {
     NSString * filePath;
-    
     NSFileHandle * fileHandle;
     unsigned long long currentOffset;
     unsigned long long totalFileLength;
-    
-    NSString * lineDelimiter;
-    NSUInteger chunkSize;
 }
 
 @property (nonatomic, copy) NSString * lineDelimiter;

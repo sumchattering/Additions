@@ -8,10 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface DDURLParser : NSObject {
-    NSArray *variables;
-}
-
+@interface DDURLParser : NSObject
 @property (nonatomic, strong) NSArray *variables;
 
 - (id)initWithURLString:(NSString *)url;
