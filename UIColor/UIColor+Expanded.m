@@ -538,6 +538,41 @@ static NSLock *crayolaNameCacheLock;
 	return color;
 }
 
+///////////////////added by ysc//////////////////////////////////////////////////////////////
++ (UIColor *)colorWithRGBString:(NSString *)stringToConvert {
+    NSScanner *scanner = [NSScanner scannerWithString:stringToConvert];
+	if (![scanner scanString:@"{" intoString:NULL]) return nil;
+	const NSUInteger kMaxComponents = 4;
+	CGFloat c[kMaxComponents];
+	NSUInteger i = 0;
+	if (![scanner scanFloat:&c[i++]]) return nil;
+	while (1) {
+		if ([scanner scanString:@"}" intoString:NULL]) break;
+		if (i >= kMaxComponents) return nil;
+		if ([scanner scanString:@"," intoString:NULL]) {
+			if (![scanner scanFloat:&c[i++]]) return nil;
+            
+		} else {
+			// either we're at the end of there's an unexpected character here
+			// both cases are error conditions
+			return nil;
+		}
+	}
+	if (![scanner isAtEnd]) return nil;
+	UIColor *color;
+	switch (i) {
+		case 2: // monochrome
+			color = [UIColor colorWithWhite:c[0] alpha:c[1]];
+			break;
+		case 3: // RGB
+			color = [UIColor colorWithRed:c[0] / 255.0f green:c[1] / 255.0f blue:c[2] / 255.0f alpha:1.0f];
+			break;
+		default:
+			color = nil;
+	}
+	return color;
+}
+
 #pragma mark Class methods
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////

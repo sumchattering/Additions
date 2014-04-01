@@ -70,6 +70,7 @@
 // Color builders
 + (UIColor *)randomColor;
 + (UIColor *)colorWithString:(NSString *)stringToConvert;
++ (UIColor *)colorWithRGBString:(NSString *)stringToConvert;//added by ysc
 + (UIColor *)colorWithRGBHex:(UInt32)hex;
 + (UIColor *)colorWithHexString:(NSString *)stringToConvert;
 + (UIColor *)colorWithName:(NSString *)cssColorName;
